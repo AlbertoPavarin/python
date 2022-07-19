@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title>Chat</title>
+    </head>
+    <body>
+        <input type="text" id="text-input">
+        <input type="button" value="Send">
+
+        <script>
+            let url = `ws://${window.location.host}/ws/socket-server/`
+
+            const socket = new WebSocket(url)
+        </script>
+    </body>
+</html>

@@ -4,12 +4,29 @@
     </head>
     <body>
         <input type="text" id="text-input">
-        <input type="button" value="Send">
+        <input id="send" type="button" value="Send">
+        <div id="chat"></div>
 
         <script>
             let url = `ws://${window.location.host}/ws/socket-server/`
 
             const socket = new WebSocket(url)
+            socket.onmessage = (e) => {
+                const data = JSON.parse(e.data);
+                document.querySelector('#chat').innerHTML += `${data.message} <br>`;
+            }
+
+            socket.onclose = () => {
+                console.error('Socket close');
+            }
+
+            document.querySelector('#send').addEventListener('click', (e) => {
+                const messageText = document.querySelector('#text').value;
+                socket.send(JSON.stringify({
+                    'message': messageText
+                }))
+                messageText.value = ''
+            })
         </script>
     </body>
 </html>

@@ -3,7 +3,7 @@ from channels.generic.websocket import WebsocketConsumer
 
 class ChatConsumers(WebsocketConsumer):
     def connect(self):
-        self().accept()
+        self.accept()
 
     def disconnect(self, code):
         pass
@@ -12,4 +12,6 @@ class ChatConsumers(WebsocketConsumer):
         data_json = json.loads(text_data)
         message = data_json['message']
 
-        print(message)
+        self.send(text_data=json.dumps({
+            'message': message
+        }))
